@@ -21,11 +21,12 @@ def init():
 
     with open(config['DEFAULT']['apkinfo.path']) as f:
         reader = csv.DictReader(f)
-        apk_info = {line['apk_name']: {
-                    'package': line['package_name'],
-                    'username': line['username'],
-                    'password': line['password'],
-                    } for line in reader}
+        # apk_info = {line['apk_name']: {
+        #             'package': line['package_name'],
+        #             'username': line['username'],
+        #             'password': line['password'],
+        #             } for line in reader}
+        apk_info = {}
     apk_dir = config['DEFAULT']['apk.dir']
     
     

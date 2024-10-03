@@ -94,6 +94,7 @@ class Session:
         prompt += "Please choose only one UI element with its index such that the element can make us closer to our test target."\
                   + "\nIf none of the UI element can do so, respond with index-none."
         response = self(prompt)
+        self.record_prompt_history(prompt, response)
         print('In queryIndex: ',response)
         for m in re.finditer('index-', response):
             local = response[m.start():m.start()+12]
@@ -107,6 +108,7 @@ class Session:
     def queryOpinion(self, prompt="") -> bool:
         prompt += "Please response in YES or NO, one word only."
         response = self(prompt)
+        self.record_prompt_history(prompt, response)
         return "YES" in response or ('NO' not in response and 'yes' in response)
 
     def queryListOfIndex(self, prompt="", guard = lambda x: True) -> Set[int]:
@@ -114,6 +116,7 @@ class Session:
                   "Please return in the form [0,1,2] or return nothing is none of the texts are relevant." \
                   "Remember, only select the ones that are relevant. It is ok to select nothing."
         response = self(prompt)
+        self.record_prompt_history(prompt, response)
         try:
             strList:str = response[response.index('['): response.index(']')+1]
             return set(filter(guard, map(lambda x: int(strList.strip()), strList.split(','))))
@@ -124,6 +127,7 @@ class Session:
     def queryString(self, prompt="") -> str:
         prompt += " Please only respond with the text input and nothing else."
         response = self(prompt)
+        self.record_prompt_history(prompt, response)
 
         def extract_str(res: str):
             if sum([ch == '"' for ch in response]) >= 2:
@@ -138,12 +142,23 @@ class Session:
         self.history = self.history[:-2]
 
     def record_history(self):
-        Path('chatgpt_android/history').mkdir(exist_ok=True)
-        cur_time = time()
+        os.makedirs('chatgpt_android/history', exist_ok=True)
+        cur_time = time.strftime("%Y-%m-%d-%H-%M-%S", time.localtime())
         with open(f'chatgpt_android/history/history-{cur_time}.json', 'w') as f:
             json.dump(self.full_history, f)
         print(f'History saved to history-{cur_time}')
-
+        
+    def record_prompt_history(self, prompt, response):
+        os.makedirs('chatgpt_android/history', exist_ok=True)
+        cur_time = time.strftime("%Y-%m-%d-%H-%M-%S", time.localtime())
+        with open(f'chatgpt_android/history/{cur_time}.txt', 'w') as f:
+            text = f"""
+Prompt:
+---{prompt}
+Response:
+---{response}
+            """
+            f.write(text)
 
 if __name__ == "__main__":
     setupChatGPT("")

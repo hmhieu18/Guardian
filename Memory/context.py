@@ -1,6 +1,6 @@
 from Infra.hierarchy import SemanticHierarchy, TotalVisibleHierarchy, VisibleHierarchy, Hierarchy
 from typing import List, Tuple, Callable
-from Infra.infra import TestCase, EventSeq, Oracle, Event, Widget
+from Infra.infra import TestCase, EventSeq, Event, Widget
 from configs import *
 from ExecutionEngine.screen_control import AndroidController
 import Infra.util as util
@@ -147,13 +147,14 @@ class ContextManager:
         self.contexts = []
         self.all_events = []
         self.last_event = None
-    def init_context(self):
+    def init_context(self, controller):
         self.contexts = []
         self.history = []
         self.all_contexts = []
         self.all_events = []
         self.last_event = None
-        initContext: Context = self.getCurrentContext(self.controller)
+        initContext: Context = self.getCurrentContext(controller)
+
         if len(self.history) == 0:
             self.history.append(initContext)
         self.all_contexts = [initContext]

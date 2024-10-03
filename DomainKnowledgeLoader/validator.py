@@ -8,10 +8,11 @@ def loop_detection(CM:ContextManager,current_Context:Context)->bool:
     except ValueError:
         return False
 
-# def llm_reflection():
-#     pass
+def llm_reflection():
+    pass
 
 def out_of_app(pkg:str,controller:AndroidController):
-    if pkg not in controller.app_info()[1]:
+    print("xxxxxxxx", pkg, controller.app_info())
+    if pkg not in controller.app_info():
         return True
     return False

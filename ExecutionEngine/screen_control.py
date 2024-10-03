@@ -128,4 +128,5 @@ class AndroidController:
         return CurApp['package'],CurApp['activity']
 
 if __name__ == "__main__":
-    print(AndroidController("emulator-5554").dump())
+    # print(AndroidController("emulator-5554").dump())
+    pass

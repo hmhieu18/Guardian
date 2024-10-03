@@ -56,11 +56,7 @@ Please refer to [FestiVal Benchmark](https://github.com/PKU-ASE-RISE/FestiVal) p
 ### Run Guardian for mobile UI navigation
 
 ```python
-python run.py \
-    --app_name Quizlet \
-    --apk_name com.quizlet.quizletandroid \
-    --testing_objective "turn on night mode" \
-    --max_test_steps 30
+python run.py --app_name Quizlet --apk_name com.quizlet.quizletandroid --testing_objective "turn on night mode" --max_test_steps 30
 ```
 
 
